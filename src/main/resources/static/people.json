@@ -1,0 +1,41 @@
+[
+  {
+    "id": "486ffeac-3124-4ca0-b77e-dc28372af9f5",
+    "firstName": "Erik",
+    "lastName": "Svensson",
+    "gender": "MALE",
+    "hobbies": [
+      {
+        "id": "46e3bf33-aecb-4c77-bbb7-d66b2138914a",
+        "value": "Programming"
+      },
+      {
+        "id": "14062340-bf7f-4abd-88b6-392385778fcb",
+        "value": "Cooking"
+      },
+      {
+        "id": "64cf03c4-4bf3-4089-895d-13ad5ecf452b",
+        "value": "Gaming"
+      },
+      {
+        "id": "f9fa7e08-e97b-484a-bbe4-c171348b11a9",
+        "value": "Gardening"
+      }
+    ],
+    "address": {
+      "id": "6f3035d8-d5b4-41b8-8b8f-c565a18fe3e2",
+      "street": "Friskhetsvägen 2",
+      "zipCode": "35260",
+      "city": "Växjö",
+      "country": "Sweden"
+    }
+  },
+  {
+    "id": "486ffeac-3323-4c12-b77e-dc28372af9f5",
+    "firstName": "Olof",
+    "lastName": "Schylander",
+    "gender": "MALE",
+    "hobbies" : null,
+    "address": null
+  }
+]
