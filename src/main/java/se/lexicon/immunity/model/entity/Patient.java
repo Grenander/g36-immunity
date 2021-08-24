@@ -1,7 +1,7 @@
 package se.lexicon.immunity.model.entity;
 
 import org.hibernate.annotations.GenericGenerator;
-import se.lexicon.immunity.model.Gender;
+import se.lexicon.immunity.model.demo.Gender;
 
 import javax.persistence.*;
 import java.time.LocalDate;

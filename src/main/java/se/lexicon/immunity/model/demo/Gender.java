@@ -1,4 +1,4 @@
-package se.lexicon.immunity.model;
+package se.lexicon.immunity.model.demo;
 
 public enum Gender {
     FEMALE,MALE

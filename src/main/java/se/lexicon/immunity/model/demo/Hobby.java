@@ -1,4 +1,4 @@
-package se.lexicon.immunity.model;
+package se.lexicon.immunity.model.demo;
 
 import java.util.Objects;
 

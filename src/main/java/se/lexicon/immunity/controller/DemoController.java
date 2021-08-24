@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.lexicon.immunity.model.Person;
+import se.lexicon.immunity.model.demo.Person;
 
 import java.io.File;
 import java.io.IOException;
