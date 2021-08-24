@@ -2,57 +2,28 @@ package se.lexicon.immunity.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.lexicon.immunity.data.BookingDAO;
 import se.lexicon.immunity.data.PatientDAO;
 import se.lexicon.immunity.exception.AppResourceNotFoundException;
-import se.lexicon.immunity.model.dto.ContactInfoDTO;
 import se.lexicon.immunity.model.dto.PatientDTO;
+import se.lexicon.immunity.model.entity.Booking;
 import se.lexicon.immunity.model.entity.ContactInfo;
 import se.lexicon.immunity.model.entity.Patient;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientServiceImpl implements PatientService{
 
     private final PatientDAO patientDAO;
+    private final BookingDAO bookingDAO;
+    private final DTOConverterService converterService;
 
-    public PatientServiceImpl(PatientDAO patientDAO) {
+    public PatientServiceImpl(PatientDAO patientDAO, BookingDAO bookingDAO, DTOConverterService converterService) {
         this.patientDAO = patientDAO;
-    }
-
-    @Transactional(readOnly = true)
-    public PatientDTO toDTO(Patient patient){
-        PatientDTO patientDTO = null;
-        if(patient != null){
-            patientDTO = new PatientDTO();
-            patientDTO.setId(patient.getId());
-            patientDTO.setFirstName(patient.getFirstName());
-            patientDTO.setLastName(patient.getLastName());
-            patientDTO.setBirthDate(patient.getBirthDate());
-            patientDTO.setPnr(patient.getPnr());
-            patientDTO.setGender(patient.getGender());
-            ContactInfoDTO contactInfoDTO = null;
-            if(patient.getContactInfo() != null){
-                contactInfoDTO = new ContactInfoDTO();
-                contactInfoDTO.setId(patient.getContactInfo().getId());
-                contactInfoDTO.setEmail(patient.getContactInfo().getEmail());
-                contactInfoDTO.setPhone(patient.getContactInfo().getPhone());
-                patientDTO.setContactInfo(contactInfoDTO);
-            }
-        }
-        return patientDTO;
-    }
-
-    @Transactional(readOnly = true)
-    public List<PatientDTO> toDTOs(List<Patient> patients){
-        List<PatientDTO> patientDTOS = new ArrayList<>();
-        if(patients != null){
-            for(Patient patient : patients){
-                patientDTOS.add(toDTO(patient));
-            }
-        }
-        return patientDTOS;
+        this.bookingDAO = bookingDAO;
+        this.converterService = converterService;
     }
 
     @Override
@@ -76,7 +47,7 @@ public class PatientServiceImpl implements PatientService{
 
         Patient persisted = patientDAO.save(patient);
 
-        return toDTO(persisted);
+        return converterService.toFullDTO(persisted, null);
     }
 
     @Transactional(readOnly = true)
@@ -88,13 +59,17 @@ public class PatientServiceImpl implements PatientService{
     @Override
     @Transactional(readOnly = true)
     public List<PatientDTO> findAll(){
-        return toDTOs(patientDAO.findAll());
+        return patientDAO.findAll().stream()
+                .map(converterService::toSmallDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
     public PatientDTO findById(String id) {
-        return toDTO(internalFindById(id));
+        Patient patient = internalFindById(id);
+        List<Booking> bookings = bookingDAO.findByPatientId(id);
+        return converterService.toFullDTO(patient, bookings);
     }
 
     @Override
@@ -111,6 +86,6 @@ public class PatientServiceImpl implements PatientService{
         patient.getContactInfo().setPhone(patientDTO.getContactInfo().getPhone());
 
         patient = patientDAO.save(patient);
-        return toDTO(patient);
+        return converterService.toFullDTO(patient, bookingDAO.findByPatientId(id));
     }
 }

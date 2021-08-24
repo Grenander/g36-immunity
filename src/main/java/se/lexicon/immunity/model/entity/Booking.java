@@ -92,6 +92,22 @@ public class Booking {
         this.vacant = vacant;
     }
 
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Premises getPremises() {
+        return premises;
+    }
+
+    public void setPremises(Premises premises) {
+        this.premises = premises;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
