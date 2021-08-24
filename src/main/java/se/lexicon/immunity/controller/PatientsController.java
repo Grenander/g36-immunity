@@ -1,44 +1,38 @@
 package se.lexicon.immunity.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import se.lexicon.immunity.data.PatientDAO;
+import org.springframework.web.bind.annotation.*;
 import se.lexicon.immunity.model.dto.PatientDTO;
-import se.lexicon.immunity.model.entity.ContactInfo;
-import se.lexicon.immunity.model.entity.Patient;
+import se.lexicon.immunity.service.PatientService;
+
+import java.util.List;
 
 @RestController
 public class PatientsController {
 
-    private final PatientDAO patientDAO;
+    private final PatientService patientService;
 
-    public PatientsController(PatientDAO patientDAO) {
-        this.patientDAO = patientDAO;
+    public PatientsController(PatientService patientService) {
+        this.patientService = patientService;
     }
 
     @PostMapping("/api/v1/patients")
-    public ResponseEntity<Patient> createPatient(@RequestBody PatientDTO patientDTO){
-        Patient patient = new Patient(
-                patientDTO.getPnr(),
-                patientDTO.getFirstName(),
-                patientDTO.getLastName(),
-                patientDTO.getBirthDate(),
-                patientDTO.getGender()
-        );
-
-        if(patientDTO.getContactInfo() != null){
-            ContactInfo contactInfo = new ContactInfo(
-                    patientDTO.getContactInfo().getEmail(),
-                    patientDTO.getContactInfo().getPhone()
-            );
-            patient.setContactInfo(contactInfo);
-        }
-
-        Patient persisted = patientDAO.save(patient);
-
-        return ResponseEntity.status(201).body(persisted);
+    public ResponseEntity<PatientDTO> createPatient(@RequestBody PatientDTO patientDTO){
+        return ResponseEntity.status(201).body(patientService.create(patientDTO));
     }
 
+    @GetMapping("/api/v1/patients")
+    public ResponseEntity<List<PatientDTO>> search(){
+        return ResponseEntity.ok(patientService.findAll());
+    }
+
+    @GetMapping("/api/v1/patients/{id}")
+    public ResponseEntity<PatientDTO> findById(@PathVariable(name = "id") String id){
+        return ResponseEntity.ok(patientService.findById(id));
+    }
+
+    @PutMapping("/api/v1/patients/{id}")
+    public ResponseEntity<PatientDTO> update(@PathVariable(name = "id") String id, @RequestBody PatientDTO patientDTO){
+        return ResponseEntity.ok(patientService.update(id, patientDTO));
+    }
 }

@@ -2,7 +2,6 @@ package se.lexicon.immunity.model.dto;
 
 import se.lexicon.immunity.model.demo.Gender;
 
-import javax.persistence.Column;
 import java.io.Serializable;
 import java.time.LocalDate;
 

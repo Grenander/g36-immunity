@@ -3,10 +3,11 @@ package se.lexicon.immunity.model.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class ContactInfo {
+public class ContactInfo implements Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID")
