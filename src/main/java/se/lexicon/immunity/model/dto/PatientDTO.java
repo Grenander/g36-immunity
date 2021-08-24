@@ -1,9 +1,11 @@
 package se.lexicon.immunity.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import se.lexicon.immunity.model.demo.Gender;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 public class PatientDTO implements Serializable {
 
@@ -13,8 +15,10 @@ public class PatientDTO implements Serializable {
     private String lastName;
     private LocalDate birthDate;
     private Gender gender;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private ContactInfoDTO contactInfo;
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<BookingDTO> bookings;
 
     public PatientDTO() {
     }
@@ -73,5 +77,13 @@ public class PatientDTO implements Serializable {
 
     public void setContactInfo(ContactInfoDTO contactInfo) {
         this.contactInfo = contactInfo;
+    }
+
+    public List<BookingDTO> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<BookingDTO> bookings) {
+        this.bookings = bookings;
     }
 }
