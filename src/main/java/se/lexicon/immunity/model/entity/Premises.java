@@ -13,7 +13,7 @@ public class Premises {
     private String id;
     private String name;
     @ManyToOne(
-            cascade = {CascadeType.DETACH, CascadeType.REFRESH},
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY
     )
     @JoinColumn(name = "address_id", table = "premises")
