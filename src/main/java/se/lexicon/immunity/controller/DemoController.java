@@ -20,7 +20,6 @@ public class DemoController {
 
     private List<Person> people;
 
-
     public DemoController() throws IOException {
         people = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
